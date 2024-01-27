@@ -1,38 +1,189 @@
 .App {
   text-align: center;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr 3fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  height: 100vh;
+}
+.navbar {
+  grid-area: 1 / 1 / 2 / 3;
+  background: #f9f9f9;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navbar .menuItems {
+  list-style: none;
+  display: flex;
+  justify-content: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.navbar .menuItems li {
+  margin: 50px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navbar .menuItems li a {
+  text-decoration: none;
+  color: #8f8f8f;
+  font-size: 24px;
+  font-weight: 400;
+  transition: all 0.5s ease-in-out;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.navbar .menuItems span {
+  text-decoration: none;
+  color: #8f8f8f;
+  font-size: 24px;
+  font-weight: 400;
+  transition: all 0.5s ease-in-out;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.navbar .menuItems li a:hover {
+  color: #686666;
+}
+
+.todo-list {
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.todo-list h1 {
+  text-decoration: none;
+  color: #767676;
+  font-size: 24px;
+  font-weight: 800;
+  font-style: italic;
+  transition: all 0.5s ease-in-out;
+  position: relative;
+}
+
+.sidebar {
+  grid-area: 2 / 2 / 3 / 3;
+  background: #f9f9f9;
+}
+
+.sidebar span {
+  text-decoration: none;
+  color: #8f8f8f;
+  font-size: 24px;
+  font-weight: 400;
+  font-style: italic;
+  transition: all 0.5s ease-in-out;
+  position: relative;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1;
+  margin: auto;
+  max-width: 400px;
+}
+
+.form * {
+  margin: 12px;
+}
+
+.form-input {
+  min-height: 50px;
+  font-size: 16px;
+  border-width: 1px;
+  border-color: #CCCCCC;
+  background-color: #FFFFFF;
+  color: #000000;
+  border-style: solid;
+  border-radius: 11px;
+  box-shadow: 0px 0px 5px rgba(66, 66, 66, .75);
+}
+
+.form-input:focus {
+  outline: none;
+}
+
+.form-button {
+  background-color: #29292c;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #32a6ff;
+  font: 600 1.05rem/1 "Nunito", sans-serif;
+  letter-spacing: .05em;
+  overflow: hidden;
+  padding: 1.15em 3.5em;
+  min-height: 1em;
+  position: relative;
+  text-transform: lowercase;
+}
+
+.form-button:hover {
+  background-color: rgb(148, 188, 213);
+}
+
+.post-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  isolation: isolate;
+  position: relative;
+  width: 18rem;
+  min-height: 8em;
+  background: #29292c;
+  border-radius: 1rem;
+  
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 16px;
+  margin: 10px;
+  --gradient: linear-gradient(to bottom, #2eadff, #3d83ff, #7e61ff);
+  --color: #32a6ff
 }
 
-.App-link {
-  color: #61dafb;
+.post-card:before {
+  position: absolute;
+  content: "";
+  inset: 0.0625rem;
+  border-radius: 0.9375rem;
+  background: #18181b;
+  z-index: 2
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.post-card:hover:after {
+  transform: translateX(0.15rem)
+}
+
+.post-card > span {
+  padding: 0.5em;
+  text-align: center;
+  justify-content: center;
+}
+
+.post-card-title {
+  color: var(--color);
+  padding: 0.65rem 0.25rem 0.4rem 1.25rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: transform 300ms ease;
+  z-index: 5;
+}
+
+.post-card:hover .post-card-title {
+  transform: translateX(0.15rem)
+}
+
+.post-card-body {
+  color: #99999d;
+  padding: 0 1.25rem;
+  transition: transform 300ms ease;
+  z-index: 5;
+}
+
+.post-card:hover .post-card-body {
+  transform: translateX(0.25rem)
+}
+
+.post-card-list-wrapper {
+  display: flex;
+  justify-content: center;
 }

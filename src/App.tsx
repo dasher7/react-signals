@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Navbar from "./components/Navbar";
+import { PostsList } from "./components/PostsList";
+import Sidebar from "./components/Sidebar";
+import { usePosts } from "./hooks/usePosts";
 
 function App() {
+  /**
+   * CASE 2 - we want to add the count of the todos in our navbar
+   * Now we need to share the todos across the components
+   * NOTE: in this all components render three times, just the firm time we land on the page
+   */
+  const { posts, updatePosts } = usePosts();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar posts={posts} />
+      <Sidebar posts={posts} />
+      <PostsList posts={posts} updatePosts={updatePosts} />
     </div>
   );
 }
