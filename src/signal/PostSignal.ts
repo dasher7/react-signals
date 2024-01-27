@@ -1,16 +1,18 @@
-import { signal } from "@preact/signals-react";
+import { Signal, signal } from "@preact/signals-react";
 import axios from "axios";
 import { Post } from "../model/Post";
 
-// Call the function that fetch the data for us in order to pass them to the signal
-const initialSignal = await getPost();
+// Initialize the signal
+export const postSignal = signal<Post[]>([])
 
 // Initialize the signal
-export const postSignal = signal(initialSignal);
+export const InitializePostSignal = (initialPosts: Post[]) => {
+  postSignal.value = initialPosts
+}
 
 //function the allow us to retrieve data from the server
-async function getPost() {
-  const response = await axios.get(
+export async function getPost(): Promise<Post[]> {
+  const response = await axios.get<Post[]>(
     "https://jsonplaceholder.typicode.com/posts"
   );
   const filteredPosts = response.data.slice(0, 3);
@@ -20,9 +22,9 @@ async function getPost() {
 }
 
 //function that allow us to set new saved post into the signal observer
-export function updatePosts(post: Post) {
+// you can either work with the signal in this file or use the refs as described below
+export function updatePosts(signal: Signal<Post[]>, post: Post) {
   localStorage.setItem("CREATED_POST", JSON.stringify(post));
-  postSignal.value = [...postSignal.value, JSON.stringify(post)]
-
+  signal.value = [...signal.value, post]
 }
  

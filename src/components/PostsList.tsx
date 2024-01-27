@@ -6,22 +6,23 @@ import { usePostsClient } from "../client/usePostClient";
 import { Post } from "../model/Post";
 import { PostCard } from "./PostCard";
 
-// !important
-//https://github.com/preactjs/signals/blob/main/packages/react/README.md#react-integration
-
-/**
- * CASE 2 - we repeat the same interface
- */
-type PostListProps = {
-  posts: Post[];
-  updatePosts: (post: Post) => void;
-};
-
 type FormValues = {
   body: string;
 };
+
+//START WORKING WITH IMPORTED SIGNAL
+/* const initialPosts = await getPost();
+InitializePostSignal(initialPosts); */
+
+// START CREATING SIGNAL
+
+// Call function to load data from where you want to retrieve them
 const initialSignal = await getPost();
+
+//Initialize signal with the fetched data
 export const postSignal = signal(initialSignal);
+
+//Load data function
 async function getPost() {
   const response = await axios.get(
     "https://jsonplaceholder.typicode.com/posts"
@@ -32,36 +33,25 @@ async function getPost() {
   return filteredPosts;
 }
 
+//Update signal value function
 function updateSignalPost(post: Post) {
   localStorage.setItem("CREATED_POST", JSON.stringify(post));
   postSignal.value = [...postSignal.value, post];
 }
 
-export function PostsList(props: PostListProps) {
+export function PostsList() {
   console.log("RENDERING - TodoList");
 
-  /* const { posts, updatePosts } = props; */
   const { register, handleSubmit } = useForm<FormValues>();
   const { savePosts } = usePostsClient();
 
+  /**
+   * !NOTE
+   * If you want to use pure signal, and not signals hooks, and you don't want to Babel, you need this to
+   * have your component reactive
+   * See this: https://github.com/preactjs/signals/blob/main/packages/react/README.md#react-integration
+   */
   useSignals();
-
-  /**
-   * CASE 1: We just want to render todos
-   * every component only renders once (TodoList twice due the fetch)
-   *
-   * As you can see the original import of the hook is here and it is totally fine
-   * const { todos: remoteTodos } = useTodos();
-   */
-
-  /**
-   * We map props that come from the father into a @PostCard component
-   */
-  /*  const postCards = useMemo(() => {
-    return postSignal.value.map((todo: Post) => (
-      <PostCard key={todo.id} {...todo} />
-    ));
-  }, [posts]); */
 
   /**
    * Handler triggered when user clicks on the "submit" button

@@ -1,23 +1,21 @@
 import { computed } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
-import { Post } from "../model/Post";
 import { postSignal } from "./PostsList";
+//import { postSignal } from "./PostsList";
 
-/**
- * CASE 2 - we repeat the same interface
- */
-type NavbarProps = {
-  posts: Post[];
-};
+const computedSignal = computed<number>(() => postSignal.value.length);
+//const computedSignal = computed<number>(() => postSignal.value.length);
 
-const computedSignal = computed(() => postSignal.value.length);
-
-export const Navbar = (props: NavbarProps) => {
+export const Navbar = () => {
   console.log("RENDERING - Navbar");
 
+  /**
+   * !NOTE
+   * If you want to use pure signal, and not signals hooks, and you don't want to Babel, you need this to
+   * have your component reactive
+   * See this: https://github.com/preactjs/signals/blob/main/packages/react/README.md#react-integration
+   */
   useSignals();
-
-  /* const { posts } = props; */
 
   return (
     <nav className="navbar">
@@ -37,7 +35,6 @@ export const Navbar = (props: NavbarProps) => {
         <li>
           <span>
             Published posts: <strong>{computedSignal}</strong>
-            {/* Published posts: <strong>{posts.length}</strong> */}
           </span>
         </li>
       </ul>
